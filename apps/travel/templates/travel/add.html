@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add a New Trip</title>
+  {% load staticfiles %}
+  <!-- The line above tells Django to be ready to listen for static files -->
+  <link rel="stylesheet" href="{% static 'css/index.css' %}"media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+  <center>
+  <h1>Add a Trip!</h1>
+  <a href="/travel">Home</a>
+  <br>
+  <form action="/logout" method="post">
+    {% csrf_token %}
+    <input type="submit" name="logout" value="Logout">
+  </form>
+  </h3>
+
+  <div class="messages">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+
+  <form action="/travel/new/{{ request.session.id }}" class="register" method="post">
+    {% csrf_token %}
+      <ul>
+        <li>Destination: <input type="text" name="dest"></li>
+        <li>Plan: <input type="text" name="plan"></li>
+        <li>Travel Date Start: <input type="date" name="start"  max="2100-01-01"></li><!-- min="2017-06-02" -->
+        <li>Travel Date End: <input type="date" name="end"  max="2100-01-01"></li>
+        <li><input type="submit" name="add_trip" value="Add"></li>
+      </ul>
+  </form>
+
+  
+  </center>
+</body>
+</html>

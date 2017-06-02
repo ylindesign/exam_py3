@@ -1,0 +1,33 @@
+*{
+	font-family: sans-serif;
+	/*padding: 0px;
+	margin: 0px;*/
+}
+
+ul li {
+	list-style: none;
+	text-align: left;
+}
+
+.messages {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.wish_box {
+	width: 500px;
+	height: 100px;
+}
+
+fieldset {
+	width: 400px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 1px solid black;
+	padding: 5px;
+}

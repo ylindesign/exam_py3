@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ place.dest }}</title>
+  {% load staticfiles %}
+  <!-- The line above tells Django to be ready to listen for static files -->
+  <link rel="stylesheet" href="{% static 'css/index.css' %}"media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+  <center>
+  <a href="/travel">Home</a>
+  <br>
+  <form action="/logout" method="post">
+    {% csrf_token %}
+    <input type="submit" name="logout" value="Logout">
+  </form>
+  </h3>
+
+  <h1>{{ place.dest }}</h1>
+  <p>Planned By: {{ place.created_by.name }}</p>
+  <p>Description: {{ place.plan }}</p>
+  <p>Travel Date Start: {{ place.start }}</p>
+  <p>Travel Date End: {{ place.end }}</p>
+
+  <h1>Other Users Joining the Trip:</h1>
+  {% for person in joined %}
+  <p>{{ person.name }}</p>
+  {% endfor %}
+
+  
+  </center>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login/Registration</title>
+  {% load staticfiles %}
+  <!-- The line above tells Django to be ready to listen for static files -->
+  <link rel="stylesheet" href="{% static 'css/index.css' %}"media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+  <center>
+  <h1>Welcome!</h1>
+    <form action="/register" class="register" method="post">
+      {% csrf_token %}
+      <fieldset>
+        <legend>Register</legend>
+        <ul>
+          <li>Name: <input type="text" name="name"></li>
+          <li>Username: <input type="text" name="username"></li>
+          <li><small>*Password should be at least 8 characters</small></li>
+          <li>Password: <input type="password" name="password"></li>
+          <li>Confirm Password: <input type="password" name="conf_pw"></li>
+          <li><input type="submit" name="register" value="Register"></li>
+        </ul>
+      </fieldset>
+    </form>
+
+    <div class="messages">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    </div>
+
+    <form action="/login" method="post">
+      {% csrf_token %}
+      <fieldset>
+        <legend>Login</legend>
+        <ul>
+          <li>Username: <input type="text" name="username_login"></li>
+          <li>Password: <input type="password" name="pw_login"></li>
+          <li><small>Case Sensitive</small></li>
+          <li><input type="submit" name="login" value="Login"></li>
+        </ul>
+      </fieldset>
+    </form>
+
+  </center>
+</body>
+</html>

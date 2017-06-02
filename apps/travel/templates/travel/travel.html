@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Travels</title>
+  {% load staticfiles %}
+  <!-- The line above tells Django to be ready to listen for static files -->
+  <link rel="stylesheet" href="{% static 'css/index.css' %}"media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+  <center>
+  <h1>Hello, {{ request.session.name }}!</h1>
+  <h3>Your id is {{ request.session.id }}
+  <form action="/logout" method="post">
+    {% csrf_token %}
+    <input type="submit" name="logout" value="Logout">
+  </form>
+  </h3>
+
+  <div class="messages">
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  </div>
+
+  <h2>Your Trip Schedules</h2>
+  <table>
+    <tr>
+      <th>Destination</th>
+      <th>Travel Start Date</th>
+      <th>Travel End Date</th>
+      <th>Plan</th>
+      <th>Delete?</th>
+    </tr>
+    {% for trip in my_trips %}
+        <tr>
+          <td><a href="{% url 'travel:dest' trip.id %}">{{ trip.dest }}</a></td>
+          <td>{{ trip.start }}</td>
+          <td>{{ trip.end }}</td>
+          <td>{{ trip.plan }}</td>
+          {% if trip.created_by.name == request.session.name %}
+          <td>
+            <form action="/travel/delete/{{trip.id}}" method="post">
+            {% csrf_token %}
+              <input type="submit" name="delete" value="Delete">
+            </form>
+          </td>
+          {% else %}
+          <td>Can't</td>
+          {% endif %}
+        </tr>
+    {% endfor %}
+  </table>
+
+
+  <h2>Other User's Travel Plans</h2>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Destination</th>
+      <th>Travel Start Date</th>
+      <th>Travel End Date</th>
+      <th>Do You Want to Join?</th>
+      <th>Delete?</th>
+    </tr>
+    {% for trip in other_trips %}
+        <tr>
+          <td>{{ trip.created_by.name }}</td>
+          <td><a href="{% url 'travel:dest' trip.id %}">{{ trip.dest }}</a></td>
+          <td>{{ trip.start }}</td>
+          <td>{{ trip.end }}</td>
+          <td>
+            <form action="/travel/join/{{trip.id}}" method="post">
+            {% csrf_token %}
+              <input type="submit" name="join" value="Join">
+            </form>
+          </td>
+          {% if trip.created_by.name == request.session.name %}
+          <td>
+            <form action="/travel/delete/{{trip.id}}" method="post">
+            {% csrf_token %}
+              <input type="submit" name="delete" value="Delete">
+            </form>
+          </td>
+          {% else %}
+          <td>Can't</td>
+          {% endif %}
+        </tr>
+    {% endfor %}
+  </table>
+
+
+  <a href="{% url 'travel:add' %}">Add Travel Plan</a>
+
+  </center>
+</body>
+</html>
